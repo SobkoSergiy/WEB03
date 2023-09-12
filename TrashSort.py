@@ -16,7 +16,7 @@ known_suffix = set()
 unknown_suffix = set()
 folders_list = []
 
-def write_dict(path):  # save files_dict, known_suffix, unknown_suffix
+def write_dict(path):
     with open(path / "TS_FileList.txt", 'w') as f:
         for categ in files_dict.keys():
             if len(files_dict[categ]) > 0:
@@ -51,7 +51,7 @@ def normalize(name):
     return newname.translate(TRANS)
 
 
-def select_file(path):  # fill files_dict() depending on  file suffix
+def select_file(path):  
     suf = path.suffix[1:].upper()
     categ = suffix_dict.get(suf)
     if categ:
@@ -62,7 +62,7 @@ def select_file(path):  # fill files_dict() depending on  file suffix
         unknown_suffix.add(suf)
 
 
-def view_folder(path):  # view & preparing files & folders 
+def view_folder(path): 
     for file in path.iterdir():
         if file.is_dir():
             folders_list.append(file)
@@ -72,9 +72,8 @@ def view_folder(path):  # view & preparing files & folders
     folders_list.sort(key=lambda Path: len(Path.parts), reverse=True)
 
 
-def check_folders(path):  # create & fill new folder for nonempty category
+def check_folders(path):  
     for categ in files_dict.keys():
-        # not empty
         if (categ != 'unknown') and (len(files_dict[categ]) > 0):
             try:
                 pathlib.Path.mkdir(path/categ)
@@ -88,11 +87,10 @@ def move_files(path):
             stem = normalize(file.stem)
             newname = (path/categ/(stem+file.suffix) if categ !=
                        'unknown' else file.parent/(stem+file.suffix))
-            # .replace(newname) doesn't need try..except
             file.replace(newname)
 
 
-def unpack_archives(path):  # remove archive files into archives folders
+def unpack_archives(path):  
     archivpath = path/'archives'
     if archivpath.exists():
         for arch in archivpath.iterdir():
@@ -110,7 +108,7 @@ def sweep_folders():
                         fold.rename(fold.parent / newname)
                     except FileExistsError:
                         continue
-            else:   # empty
+            else:   
                 try:
                     pathlib.Path.rmdir(fold)
                 except OSError:
