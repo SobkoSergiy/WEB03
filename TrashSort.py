@@ -16,7 +16,6 @@ known_suffix = set()
 unknown_suffix = set()
 folders_list = []
 
-
 def write_dict(path):  # save files_dict, known_suffix, unknown_suffix
     with open(path / "TS_FileList.txt", 'w') as f:
         for categ in files_dict.keys():
